@@ -10,5 +10,8 @@ npm-debug.*
 *.orig.*
 web-build/
 
+# custom
+Secrets.js
+
 # macOS
 .DS_Store
