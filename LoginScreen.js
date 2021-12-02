@@ -16,14 +16,12 @@ export function LoginScreen ({navigation, route}) {
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('')
   const [mode, setMode] = useState('login');
-  const [users, getUsers] = useState([]);
 
   const dataModel = getDataModel();
 
   useEffect(()=>{
     onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
-        console.log("user logged in!", authUser);
         dataModel.initOnAuth();
         navigation.navigate('Main', {currentAuthUserId: authUser.uid});
       } else {
@@ -112,9 +110,6 @@ export function LoginScreen ({navigation, route}) {
               if (mode === 'login') {
                 try {
                   const credential = await signInWithEmailAndPassword(auth, email, password);
-                  // const authUser = credential.user;      
-                  // const user = await dataModel.getUserForAuthUser(authUser);
-                  // navigation.navigate('People', {currentUserId: user.key});
                 } catch(error) {
                   Alert.alert(
                     "Login Error",

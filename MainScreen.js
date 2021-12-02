@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Image, 
   TouchableOpacity, Button } from 'react-native';
+import { MaterialIcons as Icon } from '@expo/vector-icons';
 
 import { getDataModel } from './DataModel';
 import { getAuth, signOut } from '@firebase/auth';
@@ -32,6 +33,15 @@ export function MainScreen({navigation}) {
           signOut(auth)
         }}
       />
+      <TouchableOpacity
+        onPress={()=>{navigation.navigate('Camera')}}
+      >
+        <Icon
+          name='photo-camera'
+          size={32}
+        />
+      </TouchableOpacity>
+      
     </View>
   );
 }
