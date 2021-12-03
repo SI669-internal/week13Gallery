@@ -37,7 +37,7 @@ export function CameraScreen({navigation}) {
         style={styles.cameraControls}
         onPress={async ()=>{
           let picData = await theCamera.takePictureAsync({quality: 0.2});
-          dataModel.updateImage(picData);
+          console.log('took a picture:', picData);
           navigation.goBack();
         }}>
         <Text style={styles.snapText}>Snap!</Text>
