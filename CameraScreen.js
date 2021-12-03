@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Image, 
-  TouchableOpacity, Button } from 'react-native';
+  TouchableOpacity, Button, FlatList } from 'react-native';
 import { Camera } from 'expo-camera';
 import { getDataModel } from './DataModel';
 
@@ -38,10 +38,12 @@ export function CameraScreen({navigation}) {
         onPress={async ()=>{
           let picData = await theCamera.takePictureAsync({quality: 0.2});
           console.log('took a picture:', picData);
+          dataModel.savePicture(picData);
           navigation.goBack();
         }}>
         <Text style={styles.snapText}>Snap!</Text>
       </TouchableOpacity>
+
     </View>
   );
 }

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Image, 
-  TouchableOpacity, Button } from 'react-native';
+  TouchableOpacity, Button, FlatList } from 'react-native';
 import { MaterialIcons as Icon } from '@expo/vector-icons';
 
 import { getDataModel } from './DataModel';
@@ -15,11 +15,15 @@ export function MainScreen({navigation}) {
 
   // initialize state with the placeholder image
   const [userDisplayName, setUserDisplayName] = useState('User');
+  const [pictures, setPictures] = useState([]);
 
   // subscribe to updates, specifying the callback
   useEffect(()=>{
     dataModel.addUserSnapshotListener(async () => {
       setUserDisplayName(await dataModel.getCurrentUserDisplayName());
+    });
+    dataModel.addCurrentUserGalleryListener(pictures => {
+      setPictures(pictures);
     });
   }, []);
 
@@ -41,7 +45,21 @@ export function MainScreen({navigation}) {
           size={32}
         />
       </TouchableOpacity>
-      
+      <View style={styles.gallery}>
+        <FlatList
+          data={pictures}
+          renderItem={({item}) => {
+            console.log(item);
+            return(
+              <View>
+                <Image 
+                  source={item} 
+                  style={styles.galleryImage}/>
+              </View>
+            );
+          }}
+        />
+      </View>
     </View>
   );
 }
@@ -51,6 +69,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  gallery: {
+    flex: 0.7,
+    width: '100%',
+    alignItems: 'center'
+  },
+  galleryImage: {
+    height: 200,
+    width: 200,
+    resizeMode: 'contain',
+    margin: 20
   },
   logo: {
     width: 400,
