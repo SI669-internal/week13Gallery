@@ -47,6 +47,9 @@ class DataModel {
       this.userSnapshotUnsub();
       this.userSnapshotUnsub = undefined;
     }
+    if (this.gallerySnapshotUnsub) {
+      this.gallerySnapshotUnsub();
+    }
   }
 
   addUserSnapshotListener(callback) {
@@ -113,6 +116,7 @@ class DataModel {
   }
 
   addCurrentUserGalleryListener(callback) {
+
     if (this.gallerySnapshotUnsub) {
       this.gallerySnapshotUnsub();
     }
@@ -121,10 +125,7 @@ class DataModel {
       collection(db, 'users', auth.currentUser.uid, 'pictures'), 
       orderBy('timestamp', 'desc'));
 
-    console.log('adding onSnapshot for ', auth.currentUser.uid);
-
     this.gallerySnapshotUnsub = onSnapshot(q, qSnap => {
-      console.log('onSnapshot is happening');
       let pics = [];
       qSnap.forEach(docSnap => {
         let picData = docSnap.data();
@@ -133,7 +134,6 @@ class DataModel {
       });
       callback(pics);
     });
-
   }
 
 }
